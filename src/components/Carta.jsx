@@ -21,16 +21,27 @@ onDragEnd={(_, info) => {
     onSwipe(); // Llama a siguienteCarta()
   }
 }}
-      style={{
-        position: 'absolute', width: '350px', height: '500px', backgroundColor: 'white',
-        borderRadius: '35px', display: 'flex', flexDirection: 'column', justifyContent: 'center',
-        alignItems: 'center', padding: '40px', textAlign: 'center', boxSizing: 'border-box',
-        borderTop: `12px solid ${getColores(data.categoria)}`,
-        x, rotate, opacity,
-        zIndex: 10 - index,
-        boxShadow: isTop ? '0 20px 40px rgba(0,0,0,0.3)' : '0 10px 20px rgba(0,0,0,0.1)',
-        willChange: 'transform, opacity',
-        touchAction: 'none'
+// Dentro de Carta.jsx, actualiza el objeto estiloCarta:
+    style={{
+  position: 'absolute',
+  // Cambiamos px por 100%
+  width: '100%', 
+  height: '100%',
+  backgroundColor: 'white',
+  borderRadius: '30px', // Un poco menos de radio para que no se vea raro en pantallas chicas
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '10%', // Padding porcentual para el texto
+  textAlign: 'center',
+  boxSizing: 'border-box',
+  zIndex: 10 - index,
+  borderTop: `10px solid ${getColores(data.categoria)}`,
+  boxShadow: isTop ? '0 10px 30px rgba(0,0,0,0.4)' : 'none',
+  willChange: 'transform, opacity',
+  touchAction: 'none',
+
       }}
       initial={{ scale: 0.9, opacity: 0, y: 20 }}
       animate={{ 

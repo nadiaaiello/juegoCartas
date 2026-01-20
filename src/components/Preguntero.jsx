@@ -21,21 +21,11 @@ const Preguntero = () => {
     });
   }, [soloATP, categoriasSeleccionadas]);
 
-  // Verificar si llegamos al final
   const juegoTerminado = indiceActual >= mazoFiltrado.length && mazoFiltrado.length > 0;
 
-  const siguienteCarta = () => {
-    setIndiceActual(prev => prev + 1);
-  };
-
-  const anteriorCarta = () => {
-    if (indiceActual > 0) setIndiceActual(prev => prev - 1);
-  };
-
-  const reiniciarJuego = () => {
-    setIndiceActual(0);
-    setJugando(false);
-  };
+  const siguienteCarta = () => setIndiceActual(prev => prev + 1);
+  const anteriorCarta = () => { if (indiceActual > 0) setIndiceActual(prev => prev - 1); };
+  const reiniciarJuego = () => { setIndiceActual(0); setJugando(false); };
 
   const cartaAnterior = indiceActual > 0 ? mazoFiltrado[indiceActual - 1] : null;
 
@@ -53,7 +43,9 @@ const Preguntero = () => {
       ) : (
         <div style={styles.gameArea}>
           {!juegoTerminado && (
-            <button onClick={() => setJugando(false)} style={styles.btnVolver}>← MENÚ</button>
+            <button onClick={() => setJugando(false)} style={styles.btnVolver}>
+              ← MENÚ
+            </button>
           )}
 
           <AnimatePresence initial={false}>
@@ -71,37 +63,28 @@ const Preguntero = () => {
                 );
               })
             ) : (
-              /* PANTALLA DE FINALIZACIÓN */
-              <motion.div 
-                key="final"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                style={styles.pantallaFinal}
-              >
-                <span style={{ fontSize: '50px', marginBottom: '20px' }}>✨</span>
-                <h2 style={{ margin: '0 0 10px 0' }}>¡Mazo completado!</h2>
-                <p style={{ color: '#888', marginBottom: '30px', fontSize: '14px', lineHeight: '1.5' }}>
-                  Esperamos que estas preguntas hayan servido para conectar y conocerse un poco más.
-                </p>
-                <button onClick={reiniciarJuego} style={styles.btnReiniciar}>
-                  VOLVER AL INICIO
-                </button>
+              <motion.div key="final" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} style={styles.pantallaFinal}>
+                <span style={{ fontSize: '50px' }}>✨</span>
+                <h2>¡Mazo completado!</h2>
+                <p style={{ color: '#888', fontSize: '14px', marginBottom: '30px' }}>Esperamos que estas preguntas hayan servido para conectar.</p>
+                <button onClick={reiniciarJuego} style={styles.btnReiniciar}>VOLVER AL INICIO</button>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* EL MAZO ANTERIOR SIGUE FUNCIONANDO POR SI QUIEREN VER LA ÚLTIMA PREGUNTA */}
           <div style={styles.contenedorAnterior}>
             <AnimatePresence>
               {cartaAnterior && (
                 <motion.div
-                  initial={{ x: -50, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
-                  exit={{ x: 50, opacity: 0 }}
+                  key="descarte"
+                  initial={{ x: -100, opacity: 0, rotate: -30 }}
+                  animate={{ x: 0, opacity: 1, rotate: -10 }}
+                  exit={{ x: 100, y: -100, opacity: 0 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={anteriorCarta}
                   style={{...styles.mazoDadoVuelta, backgroundColor: getColores(cartaAnterior.categoria)}}
                 >
-                  <span>↩</span>
+                  <span style={{ fontSize: '20px' }}>↩</span>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -113,33 +96,13 @@ const Preguntero = () => {
 };
 
 const styles = {
-  // ... (mismos estilos de antes)
-  pantallaFinal: {
-    backgroundColor: '#1a1a1a',
-    width: '320px',
-    padding: '40px 20px',
-    borderRadius: '30px',
-    textAlign: 'center',
-    color: 'white',
-    border: '1px solid #333',
-    fontFamily: 'system-ui, sans-serif'
-  },
-  btnReiniciar: {
-    padding: '15px 30px',
-    borderRadius: '50px',
-    border: 'none',
-    backgroundColor: 'white',
-    color: 'black',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    fontSize: '12px',
-    letterSpacing: '1px'
-  },
   appContainer: { backgroundColor: '#121212', width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', position: 'fixed' },
-  gameArea: { position: 'relative', width: '350px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center' },
-  contenedorAnterior: { position: 'absolute', bottom: '-20px', left: '-80px', zIndex: 50 },
-  mazoDadoVuelta: { width: '65px', height: '95px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', boxShadow: '0 8px 15px rgba(0,0,0,0.5)', border: '2.5px solid rgba(255,255,255,0.3)', transform: 'rotate(-10deg)' },
-  btnVolver: { position: 'absolute', top: '-60px', left: '0', background: 'none', border: 'none', color: '#666', cursor: 'pointer', fontSize: '14px', fontWeight: 'bold' }
+  gameArea: { position: 'relative', width: '90vw', maxWidth: '350px', height: '500px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'visible' },
+  contenedorAnterior: { position: 'absolute', bottom: '-40px', left: '10px', zIndex: 999 },
+  mazoDadoVuelta: { width: '65px', height: '95px', borderRadius: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', boxShadow: '0 8px 15px rgba(0,0,0,0.5)', border: '2.5px solid rgba(255,255,255,0.3)', backfaceVisibility: 'hidden' },
+  btnVolver: { position: 'absolute', top: '-60px', left: '0', background: 'none', border: 'none', color: '#666', cursor: 'pointer', fontSize: '14px', fontWeight: 'bold' },
+  pantallaFinal: { backgroundColor: '#1a1a1a', width: '100%', padding: '40px 20px', borderRadius: '30px', textAlign: 'center', color: 'white', border: '1px solid #333' },
+  btnReiniciar: { padding: '15px 30px', borderRadius: '50px', border: 'none', backgroundColor: 'white', color: 'black', fontWeight: 'bold', cursor: 'pointer', fontSize: '12px' }
 };
 
 export default Preguntero;

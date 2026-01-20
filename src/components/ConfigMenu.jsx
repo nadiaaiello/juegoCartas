@@ -63,88 +63,128 @@ const ConfigMenu = ({ soloATP, setSoloATP, categorias, toggleCategoria, alEmpeza
         </div>
 
         {/* INSTRUCCIONES ESTILO MANUAL */}
-        <div style={{ backgroundColor: '#1e1e1e', padding: '20px', borderRadius: '15px', textAlign: 'left', marginBottom: '30px', fontSize: '14px', lineHeight: '1.5' }}>
-        <p><strong>¿Cómo jugar?</strong> Rompé el hielo y conectá. No hay ganadores ni perdedores.</p>
-        <p><strong>Inicio:</strong> La persona más joven empieza tomando una carta.</p>
-      </div>
+        <div style={styles.cajaInstrucciones}>
+          <p style={styles.instruccionTitulo}>¿CÓMO JUGAR?</p>
+          <p style={styles.instruccionTexto}>
+            Rompé el hielo y conectá. No hay ganadores ni perdedores. 
+            La persona <b>más joven</b> empieza tomando una carta.
+          </p>
+        </div>
 
-      <button 
-        onClick={alEmpezar}
-        disabled={categorias.length === 0}
-        style={{ width: '100%', padding: '20px', borderRadius: '15px', border: 'none', backgroundColor: '#3b82f6', color: 'white', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer' }}
-      >
-        ¡JUGAR!
-      </button>
-    </div>
+        <button 
+          onClick={alEmpezar}
+          disabled={categorias.length === 0}
+          className="btn-jugar-pulse"
+          style={{
+            ...styles.btnJugar,
+            opacity: categorias.length === 0 ? 0.5 : 1,
+            cursor: categorias.length === 0 ? 'not-allowed' : 'pointer'
+          }}
+        >
+          ¡JUGAR!
+        </button>
+      </div>
     </div>
   );
 };
 
 const styles = {
   menuScrollContainer: {
-    width: '100%',
-    height: '100%',
-    overflowY: 'auto', // Permite scroll solo dentro del menú si el texto es largo
-    padding: '40px 20px',
-    boxSizing: 'border-box'
+    width: '100vw',
+    height: '100vh',
+    overflowY: 'auto',
+    backgroundColor: '#121212',
+    padding: '20px',
+    boxSizing: 'border-box',
+    display: 'flex',
+    justifyContent: 'center'
   },
   menuContent: {
+    width: '100%',
     maxWidth: '400px',
-    margin: '0 auto',
     fontFamily: 'system-ui, sans-serif',
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingBottom: '40px' // Espacio para que el botón no quede pegado abajo
   },
-  titulo: { fontSize: '2.5rem', fontWeight: '800', marginBottom: '30px', letterSpacing: '-1px' },
-  labelSeccion: { fontSize: '11px', fontWeight: 'bold', color: '#666', letterSpacing: '1px', marginBottom: '15px' },
-  modoSelector: { display: 'flex', gap: '10px', marginBottom: '35px' },
+  titulo: { 
+    fontSize: 'clamp(2rem, 8vw, 2.5rem)', 
+    fontWeight: '800', 
+    margin: '30px 0', 
+    letterSpacing: '-1px' 
+  },
+  labelSeccion: { 
+    fontSize: '11px', 
+    fontWeight: 'bold', 
+    color: '#666', 
+    letterSpacing: '1px', 
+    marginBottom: '15px',
+    textAlign: 'left'
+  },
+  modoSelector: { 
+    display: 'flex', 
+    gap: '10px', 
+    marginBottom: '35px' 
+  },
   btnModo: {
     flex: 1,
     display: 'flex',
     alignItems: 'center',
-    padding: '15px 10px',
+    padding: '12px 10px',
     borderRadius: '16px',
-    cursor: 'pointer',
     transition: 'all 0.2s ease',
     textAlign: 'left',
     color: 'white'
   },
-  emoji: { fontSize: '24px', marginRight: '10px' },
+  emoji: { fontSize: '20px', marginRight: '8px' },
   textoModo: { display: 'flex', flexDirection: 'column' },
-  nombreModo: { fontSize: '14px', fontWeight: 'bold' },
-  descModo: { fontSize: '10px', opacity: 0.7 },
-  gridCategorias: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '35px' },
+  nombreModo: { fontSize: '13px', fontWeight: 'bold' },
+  descModo: { fontSize: '9px', opacity: 0.7 },
+  gridCategorias: { 
+    display: 'grid', 
+    gridTemplateColumns: 'repeat(2, 1fr)', 
+    gap: '10px', 
+    marginBottom: '35px' 
+  },
   btnCat: {
-    padding: '12px',
+    padding: '12px 5px',
     borderRadius: '12px',
     border: '2px solid',
     color: 'white',
     fontWeight: 'bold',
-    fontSize: '11px',
-    cursor: 'pointer',
+    fontSize: '10px',
     transition: '0.2s'
   },
   cajaInstrucciones: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#1e1e1e',
     padding: '20px',
-    borderRadius: '20px',
+    borderRadius: '15px',
     textAlign: 'left',
     marginBottom: '30px',
     border: '1px solid #333'
   },
-  instruccionTitulo: { fontSize: '12px', fontWeight: 'bold', marginBottom: '8px', color: '#888' },
-  instruccionTexto: { fontSize: '14px', lineHeight: '1.5', margin: 0, color: '#bbb' },
+  instruccionTitulo: { 
+    fontSize: '12px', 
+    fontWeight: 'bold', 
+    marginBottom: '8px', 
+    color: '#888' 
+  },
+  instruccionTexto: { 
+    fontSize: '14px', 
+    lineHeight: '1.5', 
+    margin: 0, 
+    color: '#bbb' 
+  },
   btnJugar: {
     width: '100%',
     padding: '20px',
     borderRadius: '20px',
     border: 'none',
-    backgroundColor: 'white',
-    color: 'black',
-    fontSize: '1.1rem',
+    backgroundColor: '#3b82f6',
+    color: 'white',
+    fontSize: '1.2rem',
     fontWeight: 'bold',
-    cursor: 'pointer',
-    boxShadow: '0 10px 20px rgba(255,255,255,0.1)'
+    boxShadow: '0 10px 20px rgba(59, 130, 246, 0.3)'
   }
 };
 
